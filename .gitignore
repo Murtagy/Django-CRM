@@ -1,3 +1,9 @@
+#Custom added
+*.db
+*.pyc
+*/__pycache__/*
+secret_key.py
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

@@ -1,0 +1,30 @@
+{% extends 'crm/base.html' %}
+{% block title %}CRM My orders{% endblock %}
+{% block subheader %}
+<div class="w3-bar w3-border w3-small w3-white nav2">
+    <a href="{% url 'my_orders' %}" class="w3-bar-item w3-button w3-light-green">My orders</a>
+    <a href="{% url 'all_orders' %}" class="w3-bar-item w3-button w3-hover-lime">All oders</a>
+</div>
+{% endblock %}
+
+{% block content %}
+<table class="w3-table">
+    <tr>
+        <th>Description</th>
+        <th>Owner </th>
+        <th>Planned activities</th>
+        <th>Open orders </th>
+        <th>Assigned by</th>
+    </tr>
+    {% for order in object_list %}
+    <tr>
+        <td>{{order.des}}</td>
+        <td>{{order.owner}}</td>
+        <td>TODO</td>
+        <td>TODO</td>
+        <td>{{order.assigned_by}}</td>
+    </tr>
+    {% empty %}
+    {% endfor %}
+</table>
+{% endblock %}

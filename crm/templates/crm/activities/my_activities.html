@@ -1,0 +1,42 @@
+{% extends 'crm/base.html' %}
+{% block title %}CRM My clients{% endblock %}
+
+{% block subheader %}
+<div class="w3-bar w3-border w3-small w3-white nav2">
+    <a href="{% url 'my_activities' %}" class="w3-bar-item w3-button w3-light-green">My activities</a>
+    <a href="{% url 'all_activities' %}" class="w3-bar-item w3-button w3-hover-lime">All activities</a>
+</div>
+{% endblock %}
+
+{% block content %}
+
+{% include 'crm/activities/panel.html' %}
+
+<table class="w3-table">
+    <tr>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Owned by </th>
+        <th>Planned date</th>
+        <th>Fact date</th>
+        <th>Result </th>
+        <th>Assigned by</th>
+    </tr>
+    {% for act in object_list %}
+    <tr>
+        <td>
+            <a href="{% url 'activity_detail' act.id %}">{{act.get_type}}</a></td>
+        <td>{{act.des}}</td>
+        <td>{{act.owned_by}}</td>
+        <td>{{act.planned_date}}</td>
+        <td>{{act.fact_fate}}</td>
+        <td>{{act.result}}</td>
+        <td>{{act.assigned_by}}</td>
+    </tr>
+    {% empty %}
+    {% endfor %}
+</table>
+
+{% include 'crm/pagination.html' %}
+
+{% endblock %}

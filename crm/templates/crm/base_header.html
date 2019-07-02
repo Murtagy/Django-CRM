@@ -1,0 +1,16 @@
+<!-- Load an icon library to show a hamburger menu (bars) on small screens -->
+<!-- <div class="topnav">
+    <a class="active" href="#home">Home</a>
+    <a href="#news">Clients</a>
+    <a href="#contact">Orders</a>
+    <a href="#about">Activities</a>
+    <a href="#about">My profile</a>
+</div> -->
+<div class="w3-bar w3-border w3-light-gray nav1">
+    <a href="/" class="w3-bar-item w3-button w3-light-green"><i class="fa fa-home"></i></a>
+    <a href="{% url 'my_clients' %}" class="w3-bar-item w3-button w3-hover-lime">Clients</a>
+    <a href="{% url 'my_orders' %}" class="w3-bar-item w3-button w3-hover-lime">Orders</a>
+    <a href="{% url 'my_activities' %}" class="w3-bar-item w3-button w3-hover-lime">Activities</a>
+    <a href="{% url 'logout' %}" class="w3-bar-item w3-button w3-hover-lime w3-right"><i class="fa fa-sign-out"></i></a>
+    <a href="#" class="w3-bar-item w3-button w3-hover-lime w3-right">Profile</a>
+</div>

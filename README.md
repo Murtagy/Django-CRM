@@ -1,2 +1,16 @@
-# django-crm
-Free and open-source CRM system
+Free Django CRM!
+
+Basic features:
+-
+-
+-
+
+Data model:
+-
+-
+-
+
+Customisation advices:
+-
+-
+-

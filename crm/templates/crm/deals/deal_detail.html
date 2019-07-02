@@ -1,0 +1,10 @@
+{% extends 'crm/base.html' %}
+
+{% block content %}
+<div class="w3-right">
+    <a href="{% url 'deal_edit' object.id %}">
+        <i class="fas fa-edit w3-xxlarge"></i></a>
+</div>
+<p>{{  object.des }}</p>
+<p>{{  object.get_status_display }}</p>
+{% endblock %}

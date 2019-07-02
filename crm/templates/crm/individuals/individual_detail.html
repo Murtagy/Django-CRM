@@ -1,0 +1,19 @@
+{% extends 'crm/base.html' %}
+
+{% block content %}
+<div class="w3-right">
+    <a href="{% url 'individual_edit' object.id %}">
+        <i class="fas fa-edit w3-xxlarge"></i></a>
+</div>
+
+<p>{{  object.name }}</p>
+<p>{{  object.created}}</p>
+<p>{{  object.created_by }}</p>
+<p>{{  object.owned }}</p>
+<p>{{  object.owned_by }}</p>
+<p>{{  object.asigned }}</p>
+<p>{{  object.assigned_by }}</p>
+<p>{{  object.modified}}</p>
+<p>{{  object.modified_by }}</p>
+<p>{{  object.name }}</p>
+{% endblock %}
