@@ -14,7 +14,7 @@ from django.contrib.auth import views as auth_views
 
 # from datetime import datetime as dt
 from django.utils import timezone as tz
-import pytz
+# import pytz
 from django.urls import reverse
 from urllib.parse import urlencode
 
@@ -107,8 +107,6 @@ class OrganisationAddView(CreateView):
     def form_valid(self, form):
         form.instance = self.form_enrich(form.instance)
         return super().form_valid(form)
-
-# class Org
 
 
 class IndividualAddView(CreateView):
@@ -328,19 +326,6 @@ def RedirectActivityDetail(request, pk):
         a_type_class = globals()[a_type]
         obj = get_object_or_404(a_type_class, pk=act_id)
         return redirect(a_type_class.get_absolute_url(obj))
-# def index(request):
-#     #     """" Function to show home-page"""
-
-#     #     num_orgs = Organisation.objects.all().count()
-#     #     num_activities = Activity.objects.all().count()
-#     #     show_orgs = Organisation.objects.order_by('-date')[:9]
-#     return render(
-#         request,
-#         'crm/crm_main.html',
-#         context={'num_orgs': 1, 'num_activities': 1,
-#                  'show_orgs': 1
-#                  }
-#     )
 
 
 class IndividualDetailView(DetailView):
