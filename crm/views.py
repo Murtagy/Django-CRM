@@ -17,6 +17,8 @@ from django.utils import timezone as tz
 # import pytz
 from django.urls import reverse
 from urllib.parse import urlencode
+from django.views.generic import UpdateView
+from django.contrib.auth.mixins import PermissionRequiredMixin  # Changed
 
 
 @login_required(login_url='login')
@@ -75,10 +77,11 @@ class OrganisationDetailView(DetailView):
     template_name = 'crm/organisations/organisation_detail.html'
 
 
-class OrganisationEditView(UpdateView):
+class OrganisationEditView(PermissionRequiredMixin, UpdateView):
     model = Organisation
     fields = ['name']
     template_name = 'crm/base_edit.html'
+    permission_required = ('crm.change_organisation')
 
     def form_enrich(self, f):
         f.modified_by = str(self.request.user)
@@ -89,9 +92,10 @@ class OrganisationEditView(UpdateView):
         return super().form_valid(form)
 
 
-class OrganisationAddView(CreateView):
+class OrganisationAddView(PermissionRequiredMixin, CreateView):
     template_name = 'crm/organisations/org_add.html'
     form_class = OrganisationAddForm
+    permission_required = ('crm.add_organisation')
 
     def form_enrich(self, f):
         f.assigned = tz.now()
@@ -109,9 +113,10 @@ class OrganisationAddView(CreateView):
         return super().form_valid(form)
 
 
-class IndividualAddView(CreateView):
+class IndividualAddView(PermissionRequiredMixin, CreateView):
     template_name = 'crm/individuals/ind_add.html'
     form_class = IndividualAddForm
+    permission_required = ('crm.add_individual')
 
     def form_enrich(self, f):
         f.assigned = tz.now()
@@ -129,10 +134,11 @@ class IndividualAddView(CreateView):
         return super().form_valid(form)
 
 
-class IndividualEditView(UpdateView):
+class IndividualEditView(PermissionRequiredMixin, UpdateView):
     model = Individual
     fields = ['name']
     template_name = 'crm/base_edit.html'
+    permission_required = ('crm.change_individual')
 
     def form_enrich(self, f):
         f.modified_by = str(self.request.user)
@@ -167,9 +173,10 @@ class OrderDetailView(DetailView):
     template_name = "crm/orders/order_detail.html"
 
 
-class OrderAddView(CreateView):
+class OrderAddView(PermissionRequiredMixin, CreateView):
     template_name = 'crm/orders/ord_add.html'
     form_class = OrderAddForm
+    permission_required = ('crm.add_order')
 
     def form_enrich(self, f):
         f.assigned = tz.now()
@@ -187,10 +194,11 @@ class OrderAddView(CreateView):
         return super().form_valid(form)
 
 
-class OrderEditView(UpdateView):
+class OrderEditView(PermissionRequiredMixin, UpdateView):
     model = Order
     fields = ['des', 'status']
     template_name = 'crm/base_edit.html'
+    permission_required = ('crm.change_order')
 
     def form_enrich(self, f):
         f.modified_by = str(self.request.user)
@@ -212,9 +220,10 @@ class DealDetailView(DetailView):
     template_name = "crm/deals/deal_detail.html"
 
 
-class DealAddView(CreateView):
+class DealAddView(PermissionRequiredMixin, CreateView):
     template_name = 'crm/deals/deal_add.html'
     form_class = DealAddForm
+    permission_required = ('crm.add_deal')
 
     def form_enrich(self, f):
         f.assigned = tz.now()
@@ -232,10 +241,11 @@ class DealAddView(CreateView):
         return super().form_valid(form)
 
 
-class DealEditView(UpdateView):
+class DealEditView(PermissionRequiredMixin, UpdateView):
     model = Deal
     fields = ['des', 'status']
     template_name = 'crm/base_edit.html'
+    permission_required = ('crm.change_deal')
 
     def form_enrich(self, f):
         f.modified_by = str(self.request.user)
@@ -257,9 +267,10 @@ class ActionDetailView(DetailView):
     template_name = "crm/actions/action_detail.html"
 
 
-class ActionAddView(CreateView):
+class ActionAddView(PermissionRequiredMixin, CreateView):
     template_name = 'crm/actions/act_add.html'
     form_class = ActionAddForm
+    permission_required = ('crm.add_action')
 
     def form_enrich(self, f):
         f.assigned = tz.now()
@@ -277,10 +288,11 @@ class ActionAddView(CreateView):
         return super().form_valid(form)
 
 
-class ActionEditView(UpdateView):
+class ActionEditView(PermissionRequiredMixin, UpdateView):
     model = Action
     fields = ['des', 'status']
     template_name = 'crm/base_edit.html'
+    permission_required = ('crm.change_action')
 
     def form_enrich(self, f):
         f.modified_by = str(self.request.user)
