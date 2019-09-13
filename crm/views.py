@@ -1,24 +1,25 @@
+from django.urls import reverse
+
+from django.shortcuts import get_list_or_404, get_object_or_404, redirect
 from django.shortcuts import render, redirect
+from django.views.generic import UpdateView
+from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.list import ListView
+from django.views.generic.detail import DetailView
+# from django.views import View
+# from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+from django.contrib.auth import views as auth_views
+from django.contrib.auth.mixins import PermissionRequiredMixin  # Changed
+from django.contrib.auth.decorators import login_required
+from django.utils import timezone as tz
+
+from urllib.parse import urlencode
+
+from .permissions import OrganisationPermissionView
 from .models import Client, Organisation, Individual
 from .models import Activity, Action, Deal, Order
 from .models import User
-from django.views.generic.detail import DetailView
-from django.views.generic.list import ListView
-from django.views.generic.edit import CreateView, UpdateView
-# from django.views import View
 from .forms import *
-from django.shortcuts import get_list_or_404, get_object_or_404, redirect
-# from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth import views as auth_views
-
-# from datetime import datetime as dt
-from django.utils import timezone as tz
-# import pytz
-from django.urls import reverse
-from urllib.parse import urlencode
-from django.views.generic import UpdateView
-from django.contrib.auth.mixins import PermissionRequiredMixin  # Changed
 
 
 @login_required(login_url='login')
@@ -74,13 +75,13 @@ def render_error(request):
         return render(request, 'crm/base_error.html', {'error': request.GET.get('msg')})
 
 
-class OrganisationDetailView(DetailView):
-        # Not used yet
+class OrganisationDetailView(OrganisationPermissionView, PermissionRequiredMixin, DetailView):
     model = Organisation
     template_name = 'crm/organisations/organisation_detail.html'
+    permission_required = ('crm.view_organisation')
 
 
-class OrganisationEditView(PermissionRequiredMixin, UpdateView):
+class OrganisationEditView(OrganisationPermissionView, PermissionRequiredMixin, UpdateView):
     model = Organisation
     fields = ['name']
     template_name = 'crm/base_edit.html'
