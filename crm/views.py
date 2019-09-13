@@ -33,9 +33,12 @@ def index(request):
         'crm/base.html'
     )
 
+
+def redirect_to_index(request):
+    return index(request)
+
+
 # CLIENTS
-
-
 class MyClientsView(ListView):
     model = Client
     template_name = "crm/clients/my_clients.html"
