@@ -32,6 +32,7 @@ class BaseOwned(Base):
     class Meta:
         # Does not populate DB table
         abstract = True
+        default_permissions = ('add', 'view', 'delete', 'assign')
 
 
 class Client(BaseOwned):
@@ -63,8 +64,15 @@ class Client(BaseOwned):
 
 
 class Organisation(Client):
+    class Meta:
+        default_permissions = ('add', 'change', 'delete', 'view')
+    #     permissions = [
+    #         ('assign_organistion', 'Can assign the object')
+    #     ]
+
     # def get_absolute_url(self):
         # return "/organistion/%i/" % self.id
+
     def get_absolute_url(self):
         return reverse('organisation_detail', args=[str(self.id)])
 
