@@ -5,10 +5,11 @@ Deployment:
 
 
 Basic features:
-- admin functionality
-- user authentification
+- admin panel
+- user authentication
 - creating/viewing/editing new business objects (clients, deals, etc.)
 - basic logging (created date, created_by, modified date ... )
+- roles division (manager/sales)
 
 
 Data model:
@@ -16,5 +17,5 @@ Data model:
 - Acitivity master class (children - Actions, Deals, Orders) (can be added marketing campaigns, offers, etc.)
 - Django auth model
 
-Customisation advices:
-- TODO
+Customization advices:
+- TODO (contact me )
