@@ -1,25 +1,20 @@
-from django.urls import reverse
-
-from django.shortcuts import get_list_or_404, get_object_or_404, redirect
 from django.shortcuts import render, redirect
-from django.views.generic import UpdateView
-from django.views.generic.edit import CreateView, UpdateView
-from django.views.generic.list import ListView
-from django.views.generic.detail import DetailView
-# from django.views import View
-# from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-from django.contrib.auth import views as auth_views
-from django.contrib.auth.mixins import PermissionRequiredMixin  # Changed
-from django.contrib.auth.decorators import login_required
-from django.utils import timezone as tz
-
-from urllib.parse import urlencode
-
-from .permissions import OrganisationPermissionView
 from .models import Client, Organisation, Individual
 from .models import Activity, Action, Deal, Order
 from .models import User
+from django.views.generic.detail import DetailView
+from django.views.generic.list import ListView
+from django.views.generic.edit import CreateView, UpdateView
 from .forms import *
+from django.shortcuts import get_list_or_404, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import views as auth_views
+
+from django.utils import timezone as tz
+from django.urls import reverse
+from urllib.parse import urlencode
+from django.views.generic import UpdateView
+from django.contrib.auth.mixins import PermissionRequiredMixin  # Changed
 
 
 @login_required(login_url='login')
@@ -34,16 +29,14 @@ def index(request):
         'crm/base.html'
     )
 
-
-def redirect_to_index(request):
-    return index(request)
-
-
 # CLIENTS
-class MyClientsView(ListView):
+
+
+class MyClientsView(PermissionRequiredMixin, ListView):
     model = Client
     template_name = "crm/clients/my_clients.html"
     paginate_by = 15
+    permission_required = ('crm.view_organisation')
 
     def get_queryset(self):
         new_context = self.model.objects.filter(
@@ -51,10 +44,11 @@ class MyClientsView(ListView):
         return new_context
 
 
-class AllClientsView(ListView):
+class AllClientsView(PermissionRequiredMixin, ListView):
     model = Client
     template_name = "crm/clients/all_clients.html"
     paginate_by = 15
+    permission_required = ('crm.view_organisation')
     queryset = model.objects.order_by('modified')
 
 
@@ -75,13 +69,13 @@ def render_error(request):
         return render(request, 'crm/base_error.html', {'error': request.GET.get('msg')})
 
 
-class OrganisationDetailView(OrganisationPermissionView, PermissionRequiredMixin, DetailView):
+class OrganisationDetailView(DetailView, PermissionRequiredMixin):
     model = Organisation
     template_name = 'crm/organisations/organisation_detail.html'
     permission_required = ('crm.view_organisation')
 
 
-class OrganisationEditView(OrganisationPermissionView, PermissionRequiredMixin, UpdateView):
+class OrganisationEditView(PermissionRequiredMixin, UpdateView):
     model = Organisation
     fields = ['name']
     template_name = 'crm/base_edit.html'
@@ -300,7 +294,6 @@ class ActionEditView(PermissionRequiredMixin, UpdateView):
 
     def form_enrich(self, f):
         f.modified_by = str(self.request.user)
-
         return f
 
     def form_valid(self, form):
