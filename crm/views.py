@@ -1,20 +1,22 @@
+from django.contrib.auth import views as auth_views
+from django.contrib.auth.mixins import PermissionRequiredMixin  # Changed
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from .models import Client, Organisation, Individual
-from .models import Activity, Action, Deal, Order
-from .models import User
+from django.shortcuts import get_list_or_404, get_object_or_404, redirect
+from django.urls import reverse
+from django.utils import timezone as tz
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView
-from .forms import *
-from django.shortcuts import get_list_or_404, get_object_or_404, redirect
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth import views as auth_views
-
-from django.utils import timezone as tz
-from django.urls import reverse
-from urllib.parse import urlencode
 from django.views.generic import UpdateView
-from django.contrib.auth.mixins import PermissionRequiredMixin  # Changed
+
+from urllib.parse import urlencode
+
+from .forms import *
+from .models import Client, Organisation, Individual
+from .models import Activity, Action, Deal, Order
+from .models import User
+from .permissions import OrganisationViewPermCheck
 
 
 @login_required(login_url='login')
@@ -69,7 +71,7 @@ def render_error(request):
         return render(request, 'crm/base_error.html', {'error': request.GET.get('msg')})
 
 
-class OrganisationDetailView(DetailView, PermissionRequiredMixin):
+class OrganisationDetailView(OrganisationViewPermCheck, PermissionRequiredMixin, DetailView):
     model = Organisation
     template_name = 'crm/organisations/organisation_detail.html'
     permission_required = ('crm.view_organisation')

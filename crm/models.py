@@ -2,12 +2,10 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.urls import reverse
-# from .views import OrganisationDetailView
 
 
 class Base(models.Model):
     # For any object in database
-
     created = models.DateTimeField(auto_now_add=True)
     created_by = models.CharField(max_length=40)
     modified = models.DateTimeField(auto_now=True)

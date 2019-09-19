@@ -1,11 +1,14 @@
 from django.contrib.auth.mixins import UserPassesTestMixin
 from crm.models import Organisation
 
+# ownership check can be moved to separate function in parent class
 
-class OrganisationPermissionView(UserPassesTestMixin):
+
+class OrganisationViewPermCheck(UserPassesTestMixin):
     """ View allows to check ownership + group on the object
         It is needed because Group can access object, but only if it 
-        is owned by current user.
+        is owned by current user. Not to create custom backend and stay 
+        free to modify each PermCheck it's put separate
     """
 
     def test_func(self):
@@ -22,3 +25,6 @@ class OrganisationPermissionView(UserPassesTestMixin):
         if 'Manager' in u_groups:
             return True
         return False
+
+# class OrganisationEditPermCheck(UserPassesTestMixin):
+#     def test_func(self):
