@@ -2,8 +2,6 @@ from django.urls import include, path
 from . import views
 from django.views.generic import DetailView
 from . import forms
-# from crm.models import Organisation, Activity
-# from crm.views import OrganisationDetailView, OrganisationListView
 
 
 urlpatterns = [
@@ -49,6 +47,8 @@ urlpatterns = [
          name='organisation_detail'),
     path('organisation/<int:pk>/edit',
          views.OrganisationEditView.as_view(), name='organisation_edit'),
+     path('organisation/<int:pk>/assign',
+     views.OrganisationAssignView.as_view(),name='organisation_assign'),
     # individual
     path('add_individual', views.IndividualAddView.as_view(), name='add_individual'),
     path('individual/<int:pk>', views.IndividualDetailView.as_view(),

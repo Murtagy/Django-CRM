@@ -70,6 +70,27 @@ def render_error(request):
     if request.method == 'GET':
         return render(request, 'crm/base_error.html', {'error': request.GET.get('msg')})
 
+class OrganisationAssignView(PermissionRequiredMixin,UpdateView):
+    model = Organisation
+    fields = ['owned_by']
+    template_name = 'crm/base_edit.html'
+    permission_required = ('crm.assign_organisation')
+
+    def form_enrich(self,form):
+            old_obj = form.instance
+            self.object =  form.save(commit=False)
+            self.object.assigned = tz.now()
+            self.object.assigned_by = self.request.user 
+            self.object.modified_by = str(self.request.user)
+            self.object.owned = tz.now()
+            self.object.owned_prev = str(old_obj.owned_by)
+            return None
+
+    def form_valid(self, form):
+        self.form_enrich(form)
+        self.object.save()
+        return super().form_valid(form)
+
 
 class OrganisationDetailView(OrganisationViewPermCheck, PermissionRequiredMixin, DetailView):
     model = Organisation
@@ -99,6 +120,7 @@ class OrganisationAddView(PermissionRequiredMixin, CreateView):
 
     def form_enrich(self, f):
         f.assigned = tz.now()
+        print(f.assigned    )
         f.assigned_by = User.objects.get(username='admin')  # admin
         # f.create = dt.now()
         f.created_by = self.request.user
