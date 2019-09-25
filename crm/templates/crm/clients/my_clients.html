@@ -1,16 +1,18 @@
 {% extends 'crm/base.html' %}
+
 {% block title %}CRM My clients{% endblock %}
 
 {% block subheader %}
-<div class="w3-bar w3-border w3-small w3-white nav2">
-    <a href="{% url 'my_clients' %}" class="w3-bar-item w3-button w3-light-green">My clients</a>
-    <a href="{% url 'all_clients' %}" class="w3-bar-item w3-button w3-hover-lime">All clients</a>
-</div>
+    <div class="w3-bar w3-border w3-small w3-white nav2">
+        <a href="{% url 'my_clients' %}" class="w3-bar-item w3-button w3-light-green">My clients</a>
+        <a href="{% url 'all_clients' %}" class="w3-bar-item w3-button w3-hover-lime">All clients</a>
+    </div>
 {% endblock %}
 
 {% block content %}
-{% include 'crm/clients/panel.html' %}
-<table class="w3-table">
+{% include 'crm/clients/my_clients_panel.html' %}
+
+    <table class="w3-table">
     <tr>
         <th>Name</th>
         <th>Owner </th>

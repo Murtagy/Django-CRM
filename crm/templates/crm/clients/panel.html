@@ -1,15 +1,18 @@
 {% block panel %}
 
     <div class="w3-panel w3-border">
-    <div class="w3-right">
-    <a href="{% url 'add_individual' %}">
-        <i class="w3-xxlarge fa fa-user add_plus_show" style="display: none"></i>
-    </a>
-    <a href="{% url 'add_organisation' %}">
-        <i class="w3-xxlarge fa fa-building add_plus_show" style="display: none"></i>
-    </a>
-    <i id="add_plus" class="w3-xxlarge fa fa-plus" onclick='$(".add_plus_show").show(); $("#add_plus").hide()'></i>
-    </div>
+        {% block panel_filters %}
+        <p>123</p>
+        {% endblock %}
+        <div class="w3-right">
+        <a href="{% url 'add_individual' %}">
+            <i class="w3-xxlarge fa fa-user add_plus_show" style="display: none"></i>
+        </a>
+        <a href="{% url 'add_organisation' %}">
+            <i class="w3-xxlarge fa fa-building add_plus_show" style="display: none"></i>
+        </a>
+        <i id="add_plus" class="w3-xxlarge fa fa-plus" onclick='$(".add_plus_show").show(); $("#add_plus").hide()'></i>
+        </div>
     </div>
 
 {% endblock %}

@@ -43,6 +43,10 @@ class Client(BaseOwned):
         o = Activity.objects.filter(client_fk=self.id, fact_date=None).count()
         return o
 
+    def n_open_deals(self):
+        o = Deals.objects.filter(client_fk=self.id, fact_date=None).count()
+        return o
+
     def n_open_orders(self):
         o = Order.objects.filter(client_fk=self.id, fact_date=None).count()
         return o

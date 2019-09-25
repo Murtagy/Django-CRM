@@ -11,6 +11,9 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="{% static 'crm/font_awesome/css/all.css' %}">
     {% endblock %}
+
+    {% block emptystyles %}
+    {% endblock %}
 </head>
 
 <body>
@@ -36,6 +39,9 @@
         {% endblock %}
     </div>
     <script src="http://code.jquery.com/jquery.js"></script>
+    <script src="{% static 'crm/js/filter.js' %}"></script>
+    {% block emptyjs %}
+    {% endblock %}
 </body>
 
 </html>

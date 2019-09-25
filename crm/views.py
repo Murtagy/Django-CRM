@@ -9,6 +9,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic import UpdateView
+from django.db.models import Subquery
 
 from urllib.parse import urlencode
 
@@ -41,9 +42,22 @@ class MyClientsView(PermissionRequiredMixin, ListView):
     permission_required = ('crm.view_organisation')
 
     def get_queryset(self):
-        new_context = self.model.objects.filter(
+        GET = self.request.GET
+        accepted_params = {
+            'has_open_deals': GET.get('has_open_deals'),
+            'has_open_activities':  GET.get('has_open_activities')
+        }
+        new_queryset = self.model.objects.filter(
             owned_by=self.request.user.id).order_by('modified')
-        return new_context
+        if len(GET) != 0:
+            if accepted_params.get('has_open_deals'):
+                open_deals_clients = Deal.objects.filter(fact_date__isnull=True).values('client_fk')
+                new_queryset = new_queryset.filter(id__in=open_deals_clients)
+        if len(GET) != 0:
+            if accepted_params.get('has_open_activities'):
+                open_activities_clients = Activity.objects.filter(fact_date__isnull=True).values('client_fk')
+                new_queryset = new_queryset.filter(id__in=open_activities_clients)
+        return new_queryset
 
 
 class AllClientsView(PermissionRequiredMixin, ListView):
@@ -53,6 +67,24 @@ class AllClientsView(PermissionRequiredMixin, ListView):
     permission_required = ('crm.view_organisation')
     queryset = model.objects.order_by('modified')
 
+    def get_queryset(self):
+        GET = self.request.GET
+        accepted_params = {
+            'has_open_deals': GET.get('has_open_deals'),
+            'has_open_activities':  GET.get('has_open_activities')
+        }
+        new_queryset = self.model.objects.all()
+        if len(GET) != 0:
+            if accepted_params.get('has_open_deals'):
+                open_deals_clients = Deal.objects.filter(fact_date__isnull=True).values('client_fk')
+                new_queryset = new_queryset.filter(id__in=open_deals_clients)
+        if len(GET) != 0:
+            if accepted_params.get('has_open_activities'):
+                open_activities_clients = Activity.objects.filter(fact_date__isnull=True).values('client_fk')
+                new_queryset = new_queryset.filter(id__in=open_activities_clients)
+        return new_queryset
+
+       
 
 def RedirectClientDetail(request, pk):
     client_id = pk
@@ -337,9 +369,21 @@ class MyActivitiesView(ListView):
     paginate_by = 15
 
     def get_queryset(self):
-        new_context = self.model.objects.filter(
+        GET = self.request.GET
+        accepted_params = {
+            'open': GET.get('open'),
+            'closed':  GET.get('closed')
+        }
+        new_queryset= self.model.objects.filter(
             owned_by=self.request.user.id).order_by('modified')
-        return new_context
+        if len(GET) != 0:
+            if accepted_params.get('open'):
+                new_queryset = new_queryset.filter(fact_date__isnull=True)
+        if len(GET) != 0:
+            if accepted_params.get('closed'):
+                new_queryset = new_queryset.filter(fact_date__isnull=False)
+        return new_queryset
+
 
 
 class AllActivitiesView(ListView):
