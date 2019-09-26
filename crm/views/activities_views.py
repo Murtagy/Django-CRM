@@ -1,7 +1,8 @@
 from .imports import *
 
 
-# ORDERS
+# ORDERS are oved to separate tab on nav because 
+# of highest importance over other activities types
 class MyOrdersView(ListView):
     model = Order
     template_name = "crm/orders/my_orders.html"
@@ -30,19 +31,19 @@ class OrderAddView(PermissionRequiredMixin, CreateView):
     form_class = OrderAddForm
     permission_required = ('crm.add_order')
 
-    def form_enrich(self, f):
-        f.assigned = tz.now()
-        f.assigned_by = User.objects.get(username='admin')  # admin
-        # f.create = dt.now()
-        f.created_by = self.request.user
-        f.owned = tz.now()
-        f.owned_by = self.request.user
-        # f.modified = dt.now()
-        f.modified_by = self.request.user
-        return f
+    def form_enrich(self,form):
+        self.object =  form.save(commit=False)
+        self.object.assigned = tz.now()
+        self.object.assigned_by = User.objects.get(username='admin')  # admin
+        self.object.created_by = str(self.request.user)
+        self.object.modified_by = str(self.request.user)
+        self.object.owned_by =self.request.user
+        self.object.owned = tz.now()
+        return None
 
     def form_valid(self, form):
-        form.instance = self.form_enrich(form.instance)
+        self.form_enrich(form)
+        self.object.save()
         return super().form_valid(form)
 
 
