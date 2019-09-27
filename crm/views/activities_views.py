@@ -9,9 +9,21 @@ class MyOrdersView(ListView):
     paginate_by = 15
 
     def get_queryset(self):
-        new_context = self.model.objects.filter(
+        GET = self.request.GET
+        accepted_params = {
+            'open': GET.get('open'),
+            'closed':  GET.get('closed')
+        }
+        new_queryset = self.model.objects.filter(
             owned_by=self.request.user.id).order_by('modified')
-        return new_context
+        if len(GET) != 0:
+            if accepted_params.get('open'):
+                new_queryset = new_queryset.filter(fact_date__isnull=True).order_by('modified')
+        if len(GET) != 0:
+            if accepted_params.get('closed'):
+                new_queryset = new_queryset.filter(fact_date__isnull=False).order_by('modified')
+        return new_queryset
+
 
 
 class AllOrdersView(ListView):
@@ -19,6 +31,22 @@ class AllOrdersView(ListView):
     template_name = "crm/orders/all_orders.html"
     paginate_by = 15
     queryset = model.objects.order_by('modified')
+
+    def get_queryset(self):
+        GET = self.request.GET
+        accepted_params = {
+            'open': GET.get('open'),
+            'closed':  GET.get('closed')
+        }
+        new_queryset = self.model.objects.order_by('modified')
+        if len(GET) != 0:
+            if accepted_params.get('open'):
+                new_queryset = new_queryset.filter(fact_date__isnull=True).order_by('modified')
+        if len(GET) != 0:
+            if accepted_params.get('closed'):
+                new_queryset = new_queryset.filter(fact_date__isnull=False).order_by('modified')
+        return new_queryset
+
 
 
 class OrderDetailView(DetailView):

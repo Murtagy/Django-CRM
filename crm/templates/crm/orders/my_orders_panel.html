@@ -1,8 +1,6 @@
-{% extends 'crm/activities/panel.html' %}
+{% extends 'crm/orders/panel.html' %}
 
 {% block panel_filters %}
-<div>
     <input type="button" value="Open" onclick="add_url_param('open','1')">
     <input type="button" value="Closed" onclick="add_url_param('closed','1')">
-</div>
 {% endblock %}

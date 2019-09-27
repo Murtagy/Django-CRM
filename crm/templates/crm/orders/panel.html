@@ -3,15 +3,9 @@
     {% block panel_filters %}
     {% endblock %}
     <div class="w3-right">
-    <a href="{% url 'add_action' %}">
-        <i class="w3-xxlarge fa fa-bullseye add_plus_show" style="display: none"></i>
-    </a>
-    <a href="{% url 'add_deal' %}">
-        <i class="w3-xxlarge fa fa-handshake add_plus_show" style="display: none"></i>
-    </a>
     <a href="{% url 'add_order' %}">
         <i class="w3-xxlarge fas fa-file-invoice-dollar add_plus_show" style="display: none"></i>
-    </a>
+   
     <i id="add_plus" class="w3-xxlarge fas fa-plus" onclick='$(".add_plus_show").show(); $("#add_plus").hide()'></i>
     </div>
     </div>
