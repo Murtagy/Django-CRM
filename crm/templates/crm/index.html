@@ -1,0 +1,12 @@
+{% extends 'crm/base.html' %}
+
+{% block content %}
+    <p>Hello {{ user.get_username }}. </p>
+    <p>It's {% now "Y/m/d H:i:s" %} - prime time to work!</p>
+    
+    <p>You have:</p>
+    <ul>
+        <li>Open activities - {{ n_open_activities }} </`li>
+        <li>Open orders -  {{ n_open_orders }} </`li>
+    </ul>
+{% endblock %}

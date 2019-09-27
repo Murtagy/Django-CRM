@@ -17,7 +17,7 @@
 </head>
 
 <body>
-    <div id='header' class="w3-container">
+    <div id='header' class="w3-container" >
         {% block header %}
         {% include 'crm/base_header.html' %}
         {% endblock %}
@@ -27,7 +27,7 @@
         {% endblock %}
     </div>
 
-    <div id='content' class="w3-container">
+    <div id='content' class="w3-container" style="min-height: 30vmax">
         {% block content %}
         {% include 'crm/base_content.html' %}
         {% endblock %}

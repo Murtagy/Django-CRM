@@ -5,11 +5,11 @@ def index(request):
     #     """" Function to show home-page"""
 
     #     num_orgs = Organisation.objects.all().count()
-    #     num_activities = Activity.objects.all().count()
-    #     show_orgs = Organisation.objects.order_by('-date')[:9]
+    n_open_activities = Activity.objects.filter(owned_by = request.user, fact_date__isnull = True).count()
+    n_open_orders = Order.objects.filter(owned_by = request.user, fact_date__isnull = True).count()
     return render(
         request,
-        'crm/base.html'
+        'crm/index.html',context={'n_open_activities':n_open_activities, 'n_open_orders':n_open_orders}
     )
 
 def render_error(request):
