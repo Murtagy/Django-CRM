@@ -2,6 +2,18 @@ from .imports import *
 
 
 # CLIENTS
+class SearchClientsView(PermissionRequiredMixin, ListView):
+    model=Client
+    template_name = 'crm/clients/search_clients.html'
+    paginate_by=15
+    permission_required = ('crm.view_organisation')
+
+    def get_queryset(self):
+        name = self.request.GET.get('name')
+        queryset = self.model.objects.filter(name__icontains=name)
+        return queryset
+
+
 class MyClientsView(PermissionRequiredMixin, ListView):
     model = Client
     template_name = "crm/clients/my_clients.html"

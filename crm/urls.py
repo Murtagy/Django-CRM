@@ -19,6 +19,8 @@ urlpatterns = [
     path('my_clients', views.MyClientsView.as_view(), name='my_clients'),
     path('all_clients', views.AllClientsView.as_view(), name='all_clients'),
     path('client/<int:pk>', views.RedirectClientDetail, name='client_detail'),
+    path('search_clients/', views.SearchClientsView.as_view(), name='search_clients'),
+
     # order
     path('my_orders', views.MyOrdersView.as_view(), name='my_orders'),
     path('all_orders', views.AllOrdersView.as_view(), name='all_orders'),
