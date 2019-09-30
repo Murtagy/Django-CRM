@@ -51,6 +51,10 @@ urlpatterns = [
          views.OrganisationEditView.as_view(), name='organisation_edit'),
      path('organisation/<int:pk>/assign',
      views.OrganisationAssignView.as_view(),name='organisation_assign'),
+    path('organisation/<int:pk>/orders/', views.OrganisationDetailOrdersView.as_view(),
+         name='organisation_detail_orders'),
+    path('organisation/<int:pk>/activities/', views.OrganisationDetailActivitiesView.as_view(),
+         name='organisation_detail_activities'),
     # individual
     path('add_individual', views.IndividualAddView.as_view(), name='add_individual'),
     path('individual/<int:pk>', views.IndividualDetailView.as_view(),

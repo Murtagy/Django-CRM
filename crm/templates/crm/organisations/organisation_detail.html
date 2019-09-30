@@ -1,27 +1,32 @@
 {% extends 'crm/base.html' %}
 
+
+
 {% block content %}
+{% include 'crm/organisations/organisation_detail_subheader.html' %}
 <div class="w3-right">
     <a href="{% url 'organisation_edit' object.id %}">
         <i class="fas fa-edit w3-xxlarge"></i></a>
     <a href="{% url 'organisation_assign' object.id %}">
-        <i class="fas fa-address-card w3-xxlarge"></i></a>>
+        <i class="fas fa-address-card w3-xxlarge"></i></a>
 </div>
 
-ID: <p>{{ object.id  }}</p>
-<p>{{  object.name }}</p>
+<div class="w3-cell-row">
+<div class="w3-container w3-cell" style="width: 70%">
+    1111111111111111111111111111111111
+</div>
+<div class="w3-container w3-cell" style="width: 30%">
+<p><b>ID:</b>{{ object.id  }}</p>
+<p><b>Name:</b>{{  object.name }}</p>
 
-Created:
-<p>{{  object.created}}</p>
-<p>{{  object.created_by }}</p>
-Owned:
-<p>{{  object.owned }}</p>
-<p>{{  object.owned_by }}</p>
-Assigned:
-<p>{{  object.assigned }}</p>
-<p>{{  object.assigned_by }}</p>
-Modified:
-<p>{{  object.modified}}</p>
-<p>{{  object.modified_by }}</p>
-
+<p><b>Created:</b>{{  object.created}}</p>
+<p><b>Created by:</b>{{  object.created_by}}</p>
+<p><b>Owned:</b>{{  object.owned}}</p>
+<p><b>Owned by:</b>{{  object.owned_by}}</p>
+<p><b>Assigned:</b>{{  object.assigned}}</p>
+<p><b>Assigned by:</b>{{  object.assigned_by}}</p>
+<p><b>Modified:</b>{{  object.modified}}</p>
+<p><b>Modified by:</b>{{  object.modified_by }}</p>
+</div>
 {% endblock %}
+</div>

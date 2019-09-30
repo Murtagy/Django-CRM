@@ -4,8 +4,12 @@
 
 {% block subheader %}
     <div class="w3-bar w3-border w3-small w3-white nav2">
-        <a href="{% url 'my_clients' %}" class="w3-bar-item w3-button w3-light-green">My clients</a>
-        <a href="{% url 'all_clients' %}" class="w3-bar-item w3-button w3-hover-lime">All clients</a>
+        <a href="{% url 'my_clients' %}" class="w3-bar-item w3-button 
+        {% if request.resolver_match.url_name == 'my_clients' %} w3-light-green {% else %} w3-hover-lime {% endif %}"
+        >My clients</a>
+        <a href="{% url 'all_clients' %}" class="w3-bar-item w3-button 
+        {% if request.resolver_match.url_name == 'all_clients' %} w3-light-green {% else %} w3-hover-lime {% endif %}"
+        >All clients</a>
     </div>
 {% endblock %}
 

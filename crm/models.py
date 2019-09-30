@@ -105,6 +105,7 @@ class Activity(BaseOwned):
         return reverse('activity_detail', args=[str(self.id)])
 
     def get_type(self):
+        #all children should be listed here
         children = ['action', 'deal', 'order']
         for c in children:
             try:
@@ -114,7 +115,7 @@ class Activity(BaseOwned):
             else:
                 return c.capitalize()
         else:
-            return 'Not specified'
+            raise 'Clients children are not specified'
 
 
 class Deal(Activity):

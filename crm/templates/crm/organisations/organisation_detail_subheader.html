@@ -1,0 +1,15 @@
+{% block subheader %}
+    <div class="w3-bar w3-border w3-small w3-white nav2">
+        <a href="{% if object.id %}{% url 'organisation_detail' object.id %}{% elif view.kwargs.pk %}{% url 'organisation_detail' view.kwargs.pk %}{% endif %}" class="w3-bar-item w3-button 
+        {% if request.resolver_match.url_name == 'organisation_detail' %} w3-light-green {% else %} w3-hover-lime {% endif %}"
+        >Info</a>
+        <a href="{% if object.id %}{% url 'organisation_detail_orders' object.id %}{% elif view.kwargs.pk %}{% url 'organisation_detail_orders' view.kwargs.pk %}{% endif %}" class="w3-bar-item w3-button 
+        {% if request.resolver_match.url_name == 'organisation_detail_orders' %} w3-light-green {% else %} w3-hover-lime {% endif %}"
+        >Orders</a>
+        <a href="{% if object.id %}{% url 'organisation_detail_activities' object.id %}{% elif view.kwargs.pk %}{% url 'organisation_detail_activities' view.kwargs.pk %}{% endif %}" class="w3-bar-item w3-button 
+        {% if request.resolver_match.url_name == 'organisation_detail_activities' %} w3-light-green {% else %} w3-hover-lime {% endif %}"
+        >Activites</a>
+    </div>
+{% endblock %}
+
+

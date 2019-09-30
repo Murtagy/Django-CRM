@@ -142,6 +142,29 @@ class OrganisationAddView(PermissionRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
+class OrganisationDetailOrdersView(PermissionRequiredMixin, ListView):
+    model = Order 
+    permission_required = ('crm.view_organisation')
+    template_name = 'crm/organisations/organisation_detail_orders.html'
+
+    def context_enrich(self):
+        object_id = self.kwargs.get('pk')
+
+    def get_queryset(self):
+        new_queryset = self.model.objects.filter(client_fk=self.kwargs['pk'])
+        return new_queryset
+
+class OrganisationDetailActivitiesView(PermissionRequiredMixin, ListView):
+    model = Activity 
+    permission_required = ('crm.view_organisation')
+    template_name = 'crm/organisations/organisation_detail_activities.html'
+
+    def get_queryset(self):
+        new_queryset = self.model.objects.filter(client_fk=self.kwargs['pk'])
+        return new_queryset
+
+
+
 class IndividualAddView(PermissionRequiredMixin, CreateView):
     template_name = 'crm/individuals/ind_add.html'
     form_class = IndividualAddForm

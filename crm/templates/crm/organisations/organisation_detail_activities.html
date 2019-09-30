@@ -1,0 +1,31 @@
+{% extends 'crm/base.html' %}
+
+{% block content %}
+{% include 'crm/organisations/organisation_detail_subheader.html' %}
+
+<table class="w3-table">
+    <tr>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Owned by </th>
+        <th>Planned date</th>
+        <th>Fact date</th>
+        <th>Result </th>
+        <th>Assigned by</th>
+    </tr>
+    {% for act in object_list %}
+    <tr>
+        <td>
+            <a href="{% url 'activity_detail' act.id %}">{{act.get_type}}</a></td>
+        <td>{{act.des}}</td>
+        <td>{{act.owned_by}}</td>
+        <td>{{act.planned_date}}</td>
+        <td>{{act.fact_fate}}</td>
+        <td>{{act.result}}</td>
+        <td>{{act.assigned_by}}</td>
+    </tr>
+    {% empty %}
+    {% endfor %}
+</table>
+
+{% endblock %}
