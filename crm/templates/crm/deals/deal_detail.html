@@ -1,10 +1,56 @@
 {% extends 'crm/base.html' %}
 
 {% block content %}
-<div class="w3-right">
-    <a href="{% url 'deal_edit' object.id %}">
-        <i class="fas fa-edit w3-xxlarge"></i></a>
+
+{% include 'crm/deals/deal_detail_subheader.html' %}
+<div class="w3-cell-row">
+<div class="w3-container w3-cell" style="width: 70%">
+    Deal info    
+<p><b>Description: </b>{{  object.des }}</p>
+<p><b>Status: </b>{{  object.get_status_display }}</p>
+<p><b>Planned date: </b>{{  object.planned_date}}</p>
+<p><b>Fact date: </b>{{  object.fact_date}}</p>
 </div>
-<p>{{  object.des }}</p>
-<p>{{  object.get_status_display }}</p>
+<div class="w3-container w3-cell" style="width: 30%">
+    <p><b>ID:</b>{{ object.id  }}</p>
+    <p><b>Name:</b>{{  object.name }}</p>
+
+    <p><b>Created:</b>{{  object.created}}</p>
+    <p><b>Created by:</b>{{  object.created_by}}</p>
+    <p><b>Owned:</b>{{  object.owned}}</p>
+    <p><b>Owned by:</b>{{  object.owned_by}}</p>
+    <p><b>Assigned:</b>{{  object.assigned}}</p>
+    <p><b>Assigned by:</b>{{  object.assigned_by}}</p>
+    <p><b>Modified:</b>{{  object.modified}}</p>
+    <p><b>Modified by:</b>{{  object.modified_by }}</p>
+</div>
+</div>
+<hr>
+<div class="w3-tag w3-light-green">Related actions:</div>
+<table class="w3-table">
+    <tr>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Owned by </th>
+        <th>Planned date</th>
+        <th>Fact date</th>
+        <th>Result </th>
+        <th>Assigned by</th>
+    </tr>
+    {% for action in view.get_related_activities %}
+    <tr>
+        <td>
+            <a href="{% url 'activity_detail' action.id %}">{{act.get_type}}</a></td>
+        <td>{{action.des}}</td>
+        <td>{{action.owned_by}}</td>
+        <td>{{action.planned_date}}</td>
+        <td>{{action.fact_fate}}</td>
+        <td>{{action.result}}</td>
+        <td>{{action.assigned_by}}</td>
+    </tr>
+    {% empty %}
+    {% endfor %}
+</table>
+
+{% include 'crm/pagination.html' %}
 {% endblock %}

@@ -100,6 +100,14 @@ class DealDetailView(DetailView):
     model = Deal
     template_name = "crm/deals/deal_detail.html"
 
+    @property
+    def get_related_actions(self):
+        queryset = Action.objects.filter(deal_fk=self.object.id)
+        paginator = Paginator(queryset,5)
+        page = self.request.GET.get('page')
+        actions = queryset.get_page(page)
+        print(111111111111111)
+        return actions
 
 class DealAddView(PermissionRequiredMixin, CreateView):
     template_name = 'crm/deals/deal_add.html'

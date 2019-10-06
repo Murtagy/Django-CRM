@@ -1,0 +1,11 @@
+{% block subheader %}
+<div class="w3-bar w3-border w3-small w3-white nav2">
+        <a href="{% if object.id %}{% url 'deal_detail' object.id %}{% elif view.kwargs.pk %}{% url 'deal_detail' view.kwargs.pk %}{% endif %}" class="w3-bar-item w3-button 
+        {% if request.resolver_match.url_name == 'deal_detail' %} w3-light-green {% else %} w3-hover-lime {% endif %}"
+        >Deal</a>
+        <div class="w3-right">
+    <a href="{% url 'deal_edit' object.id %}">
+        <i class="fas fa-edit w3-xxlarge"></i></a>
+    </div>
+</div>
+{% endblock %}
