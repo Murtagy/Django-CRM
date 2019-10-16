@@ -100,14 +100,20 @@ class DealDetailView(DetailView):
     model = Deal
     template_name = "crm/deals/deal_detail.html"
 
-    @property
-    def get_related_actions(self):
-        queryset = Action.objects.filter(deal_fk=self.object.id)
-        paginator = Paginator(queryset,5)
+    def get_context_data(self, **kwargs):
+        context = super(DealDetailView, self).get_context_data(**kwargs)
+        activities= self.get_related_activities()
+        context['related_activities'] = activities
+        context['page_obj'] = activities 
+        return context
+
+    def get_related_activities(self):
+        queryset = self.object.activity_rel.all() 
+        paginator = Paginator(queryset,5) #paginate_by
         page = self.request.GET.get('page')
-        actions = queryset.get_page(page)
-        print(111111111111111)
-        return actions
+        activities = paginator.get_page(page)
+        return activities
+
 
 class DealAddView(PermissionRequiredMixin, CreateView):
     template_name = 'crm/deals/deal_add.html'
@@ -133,7 +139,7 @@ class DealAddView(PermissionRequiredMixin, CreateView):
 class DealEditView(PermissionRequiredMixin, UpdateView):
     model = Deal
     fields = ['des', 'status']
-    template_name = 'crm/base_edit.html'
+    template_name = 'crm/base_edit'
     permission_required = ('crm.change_deal')
 
     def form_enrich(self, f):
@@ -161,19 +167,28 @@ class ActionAddView(PermissionRequiredMixin, CreateView):
     form_class = ActionAddForm
     permission_required = ('crm.add_action')
 
-    def form_enrich(self, f):
-        f.assigned = tz.now()
-        f.assigned_by = User.objects.get(username='admin')  # admin
+    def form_enrich(self, form):
+        self.object = form.save(commit=False)
+        self.object.assigned = tz.now()
+        self.object.assigned_by = User.objects.get(username='admin')  # admin
         # f.create = dt.now()
-        f.created_by = self.request.user
-        f.owned = tz.now()
-        f.owned_by = self.request.user
+        self.object.created_by = str(self.request.user)
+        self.object.owned = tz.now()
+        self.object.owned_by = self.request.user
         # f.modified = dt.now()
-        f.modified_by = self.request.user
-        return f
+        self.object.modified_by = str(self.request.user)
+        if self.request.GET.get('related_activity'):
+            self.object.save()
+            ra = self.request.GET.get('related_activity')
+            ra_obj = Activity.objects.get(pk=ra)
+
+            self.object.client_fk  = ra_obj.client_fk 
+            self.object.activity_rel.add(ra_obj)
+        return None
 
     def form_valid(self, form):
-        form.instance = self.form_enrich(form.instance)
+        self.form_enrich(form)
+        self.object.save()
         return super().form_valid(form)
 
 

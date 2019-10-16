@@ -147,9 +147,6 @@ class OrganisationDetailOrdersView(PermissionRequiredMixin, ListView):
     permission_required = ('crm.view_organisation')
     template_name = 'crm/organisations/organisation_detail_orders.html'
 
-    def context_enrich(self):
-        object_id = self.kwargs.get('pk')
-
     def get_queryset(self):
         new_queryset = self.model.objects.filter(client_fk=self.kwargs['pk'])
         return new_queryset
