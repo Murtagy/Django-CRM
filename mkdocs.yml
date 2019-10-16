@@ -1,0 +1,17 @@
+site_name: Django-CRM documentation (dev. by Murtagy)
+
+
+nav:
+- Home: 'index.md'
+- User Guide:
+    - 'Employee': 'user.md'
+- Architecture:
+    - 'Access and restrictions': 'permissions.md'
+    - 'Data logic': 'models.md'
+    - 'Layout': 'layout.md'
+- Development:
+    - 'Depoyment': 'deployment.md'
+    - 'Customization': 'customization.md' 
+
+markdown_extensions:
+  - meta
