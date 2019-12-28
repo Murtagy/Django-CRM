@@ -37,6 +37,7 @@ urlpatterns = [
     path('add_deal', views.DealAddView.as_view(), name='add_deal'),
     path('deal/<int:pk>/edit',
          views.DealEditView.as_view(), name='deal_edit'),
+     path('deal/<int:deal_pk>/add_child_action', views.ActionAddView.as_view(), name='deal_add_child_action'),
     # action
     path('add_action', views.ActionAddView.as_view(), name='add_action'),
     path('action/<int:pk>', views.ActionDetailView.as_view(), name='action_detail'),

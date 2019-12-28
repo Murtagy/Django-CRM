@@ -132,7 +132,7 @@ class DealAddView(PermissionRequiredMixin, CreateView):
 class DealEditView(PermissionRequiredMixin, UpdateView):
     model = Deal
     fields = ['des', 'status']
-    template_name = 'crm/base_edit.html'
+    template_name = 'crm/base_edit'
     permission_required = ('crm.change_deal')
 
     def form_enrich(self, f):
@@ -160,19 +160,28 @@ class ActionAddView(PermissionRequiredMixin, CreateView):
     form_class = ActionAddForm
     permission_required = ('crm.add_action')
 
-    def form_enrich(self, f):
-        f.assigned = tz.now()
-        f.assigned_by = User.objects.get(username='admin')  # admin
+    def form_enrich(self, form):
+        self.object = form.save(commit=False)
+        self.object.assigned = tz.now()
+        self.object.assigned_by = User.objects.get(username='admin')  # admin
         # f.create = dt.now()
-        f.created_by = self.request.user
-        f.owned = tz.now()
-        f.owned_by = self.request.user
+        self.object.created_by = str(self.request.user)
+        self.object.owned = tz.now()
+        self.object.owned_by = self.request.user
         # f.modified = dt.now()
-        f.modified_by = self.request.user
-        return f
+        self.object.modified_by = str(self.request.user)
+        if self.request.GET.get('related_activity'):
+            self.object.save()
+            ra = self.request.GET.get('related_activity')
+            ra_obj = Activity.objects.get(pk=ra)
+
+            self.object.client_fk  = ra_obj.client_fk 
+            self.object.activity_rel.add(ra_obj)
+        return None
 
     def form_valid(self, form):
-        form.instance = self.form_enrich(form.instance)
+        self.form_enrich(form)
+        self.object.save()
         return super().form_valid(form)
 
 

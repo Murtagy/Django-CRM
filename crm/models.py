@@ -94,6 +94,7 @@ class Activity(BaseOwned):
         Client, on_delete=models.PROTECT, null=True, blank=True, related_name='%(class)s_client_fk')
     des = models.TextField(max_length=1000, null=True, blank=True)
     result = models.TextField(max_length=1000, null=True, blank=True)
+    activity_rel = models.ManyToManyField('self', blank=True)
 
     def __str__(self):
         if self.des:
@@ -158,8 +159,6 @@ class Action(Activity):
         ('F', 'Finished')
     ]
     status = models.CharField(choices=STATUS_TYPES, default='N', max_length=6)
-    deal_fk = models.ForeignKey(
-        Deal, null=True, blank=True, on_delete=models.CASCADE)
 
     def get_absolute_url(self):
         return reverse('action_detail', args=[str(self.id)])
