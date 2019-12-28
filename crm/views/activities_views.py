@@ -100,13 +100,19 @@ class DealDetailView(DetailView):
     model = Deal
     template_name = "crm/deals/deal_detail.html"
 
-    @property
-    def get_child_actions(self):
-        queryset = Action.objects.filter(deal_fk=self.object.id)
-        paginator = Paginator(queryset,5)
+    def get_context_data(self, **kwargs):
+        context = super(DealDetailView, self).get_context_data(**kwargs)
+        activities= self.get_related_activities()
+        context['related_activities'] = activities
+        context['page_obj'] = activities 
+        return context
+
+    def get_related_activities(self):
+        queryset = self.object.activity_rel.all() 
+        paginator = Paginator(queryset,5) #paginate_by
         page = self.request.GET.get('page')
-        actions = queryset.get_page(page)
-        return actions
+        activities = paginator.get_page(page)
+        return activities
 
 class DealAddView(PermissionRequiredMixin, CreateView):
     template_name = 'crm/deals/deal_add.html'
@@ -171,7 +177,7 @@ class ActionAddView(PermissionRequiredMixin, CreateView):
         # f.modified = dt.now()
         self.object.modified_by = str(self.request.user)
         if self.request.GET.get('related_activity'):
-            self.object.save()
+            self.object.save() #[REVIEW]
             ra = self.request.GET.get('related_activity')
             ra_obj = Activity.objects.get(pk=ra)
 

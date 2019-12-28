@@ -51,7 +51,7 @@
         <th>Result </th>
         <th>Assigned by</th>
     </tr>
-    {% for action in view.get_child_activities %}
+    {% for activity in related_activities %} 
     <tr>
         <td>
             <a href="{% url 'activity_detail' activity.id %}">{{activity.get_type}}</a></td>
