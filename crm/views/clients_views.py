@@ -160,6 +160,11 @@ class OrganisationDetailActivitiesView(PermissionRequiredMixin, ListView):
         new_queryset = self.model.objects.filter(client_fk=self.kwargs['pk'])
         return new_queryset
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        client_id = self.kwargs.get('pk')
+        context['client_id'] = client_id
+        return context
 
 
 class IndividualAddView(PermissionRequiredMixin, CreateView):
@@ -170,11 +175,9 @@ class IndividualAddView(PermissionRequiredMixin, CreateView):
     def form_enrich(self, f):
         f.assigned = tz.now()
         f.assigned_by = User.objects.get(username='admin')  # admin
-        # f.create = dt.now()
         f.created_by = self.request.user
         f.owned = tz.now()
         f.owned_by = self.request.user
-        # f.modified = dt.now()
         f.modified_by = self.request.user
         return f
 
