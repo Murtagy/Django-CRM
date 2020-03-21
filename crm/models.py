@@ -67,7 +67,7 @@ class Client(BaseOwned):
 class Organisation(Client):
     class Meta:
         permissions = [
-            ('assign_organisation', 'Can assign organisation owner')
+            ('assign_organisation', 'Can assign organisation')
         ]
     # def get_absolute_url(self):
         # return "/organistion/%i/" % self.id
