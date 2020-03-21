@@ -73,10 +73,10 @@ class Command(BaseCommand):
         create_groups()
         set_admin_group(admin)
         
-        org_perms = ['Can view organisation', 'Can change organisation']
-        action_perms = ['Can view action', 'Can change action']
-        order_perms = ['Can view order', 'Can change order']
-        deal_perms = ['Can view deal', 'Can change deal']
+        org_perms = ['Can add organisation', 'Can view organisation', 'Can change organisation']
+        action_perms = ['Can add action', 'Can view action', 'Can change action']
+        order_perms = ['Can add order', 'Can view order', 'Can change order']
+        deal_perms = ['Can add deal', 'Can view deal', 'Can change deal'] # TODO: test adding on post returns 302 but creates when no add permission
         add_permissions(Group.objects.get(name='Manager'), org_perms+action_perms+order_perms+deal_perms)
         add_permissions(Group.objects.get(name='Sales'), org_perms+action_perms+order_perms+deal_perms + ['Can assign organisation'])
         create_org()
