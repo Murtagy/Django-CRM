@@ -170,12 +170,14 @@ class ActionAddView(PermissionRequiredMixin, CreateView):
         self.object = form.save(commit=False)
         self.object.assigned = tz.now()
         self.object.assigned_by = User.objects.get(username='admin')  # admin
-        # f.create = dt.now()
         self.object.created_by = str(self.request.user)
         self.object.owned = tz.now()
         self.object.owned_by = self.request.user
-        # f.modified = dt.now()
         self.object.modified_by = str(self.request.user)
+        if self.request.GET.get('client_id'):
+            client_fk = self.request.GET['client_id']            
+            client = Client.objects.get(id=client_fk)
+            self.object.client_fk = client 
         if self.request.GET.get('related_activity'):
             self.object.save() #[REVIEW]
             ra = self.request.GET.get('related_activity')

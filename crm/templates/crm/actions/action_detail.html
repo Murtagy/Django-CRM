@@ -5,6 +5,25 @@
     <a href="{% url 'action_edit' object.id %}">
         <i class="fas fa-edit w3-xxlarge"></i></a>
 </div>
-<p>{{  object.des }}</p>
-<p>{{  object.get_status_display }}</p>
+
+<div class="w3-cell-row">
+    <div class="w3-container w3-cell" style="width: 50%">
+    <p><b>Type: </b>{{ object.get_type }}</p>
+    <p><b>Status: </b>{{ object.get_status_display }}</p>
+    <p><b>Planned date: </b>{{ object.planned_date }}</p>
+    <p><b>Fact date: </b>{{ object.fact_date }}</p>
+    <p><b>Description:</b> {{ object.des }}</p>
+    <p><b>Result:</b> {{ object.result }}</p>
+    </div>
+
+    <div class="w3-container w3-cell" style="width: 50%">
+    <p> <b>Client: </b><a href="{% url 'client_detail' object.client_fk.id  %}">
+        {{object.client_fk.name}}</a></p>
+
+    </div>
+
+
+</div>
+
+
 {% endblock %}

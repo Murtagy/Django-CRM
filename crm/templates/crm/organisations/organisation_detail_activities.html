@@ -2,15 +2,29 @@
 
 {% block content %}
 {% include 'crm/organisations/organisation_detail_subheader.html' %}
-
+<div class="w3-bar">
+    <div class="w3-tag w3-light-green">Activites:</div>
+    <div class="w3-right">
+    <a href="{% url 'add_action' %}?client_id={{ client_id }}">
+        <i class="w3-xxlarge fa fa-bullseye add_plus_show" style="display: none"></i>
+    </a>
+    <a href="{% url 'add_deal' %}?client_id={{ client_id }}">
+        <i class="w3-xxlarge fa fa-handshake add_plus_show" style="display: none"></i>
+    </a>
+    <a href="{% url 'add_order' %}?client_id={{ client_id }}">
+        <i class="w3-xxlarge fas fa-file-invoice-dollar add_plus_show" style="display: none"></i>
+    </a>
+    <i id="add_plus" class="w3-xxlarge fas fa-plus" onclick='$(".add_plus_show").show(); $("#add_plus").hide()'></i>
+    </div>
+</div>
 <table class="w3-table">
     <tr>
         <th>Type</th>
         <th>Description</th>
-        <th>Owned by </th>
+        <th>Owned by</th>
         <th>Planned date</th>
         <th>Fact date</th>
-        <th>Result </th>
+        <th>Result</th>
         <th>Assigned by</th>
     </tr>
     {% for act in object_list %}
