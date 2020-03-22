@@ -52,7 +52,11 @@ class AllOrdersView(ListView):
 class OrderDetailView(DetailView):
     model = Order
     template_name = "crm/orders/order_detail.html"
-
+    
+    def get_context_data(self, **kwargs):
+        context = super(DetailView, self).get_context_data(**kwargs)
+        context = context_enrich_related_activities(self, context, self.object) 
+        return context
 
 class OrderAddView(PermissionRequiredMixin, CreateView):
     template_name = 'crm/orders/ord_add.html'
