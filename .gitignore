@@ -3,6 +3,7 @@
 *.pyc
 */__pycache__/*
 secret_key.py
+.vscode/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
