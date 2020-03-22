@@ -1,4 +1,4 @@
-Free Django-based CRM!
+Free Django-based CRM! Can be run on Django 2.2 or 3+
 
 Basic features:
 - admin panel
