@@ -17,13 +17,33 @@
     </div>
 
     <div class="w3-container w3-cell" style="width: 50%">
-    <p> <b>Client: </b><a href="{% url 'client_detail' object.client_fk.id  %}">
-        {{object.client_fk.name}}</a></p>
+    <p> <b>Client: </b>
+        {% if object.client_fk.id %}
+          <a href="{% url 'client_detail' object.client_fk.id  %}">
+        {{object.client_fk.name}}</a>
+        {% else %}
+        -
+        {% endif %}
+    </p>
 
-    </div>
+    <p><b>ID: </b>{{ object.id  }}</p>
+    <p><b>Name: </b>{{  object.name }}</p>
 
-
+    <p><b>Created: </b>{{  object.created}}</p>
+    <p><b>Created by: </b>{{  object.created_by}}</p>
+    <p><b>Owned: </b>{{  object.owned}}</p>
+    <p><b>Owned by: </b>{{  object.owned_by}}</p>
+    <p><b>Assigned :</b>{{  object.assigned}}</p>
+    <p><b>Assigned by: </b>{{  object.assigned_by}}</p>
+    <p><b>Modified: </b>{{  object.modified}}</p>
+    <p><b>Modified by: </b>{{  object.modified_by }}</p>
 </div>
+</div>
+<hr>
 
+
+
+<hr>
+{% include 'crm/activities/related_activities_table.html' %}
 
 {% endblock %}

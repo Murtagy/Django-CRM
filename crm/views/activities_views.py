@@ -102,17 +102,8 @@ class DealDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(DealDetailView, self).get_context_data(**kwargs)
-        activities= self.get_related_activities()
-        context['related_activities'] = activities
-        context['page_obj'] = activities 
+        context = context_enrich_related_activities(self, context, self.object) 
         return context
-
-    def get_related_activities(self):
-        queryset = self.object.activity_rel.all() 
-        paginator = Paginator(queryset,5) #paginate_by
-        page = self.request.GET.get('page')
-        activities = paginator.get_page(page)
-        return activities
 
 class DealAddView(PermissionRequiredMixin, CreateView):
     template_name = 'crm/deals/deal_add.html'
@@ -159,6 +150,11 @@ class DealEditView(PermissionRequiredMixin, UpdateView):
 class ActionDetailView(DetailView):
     model = Action
     template_name = "crm/actions/action_detail.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(DetailView, self).get_context_data(**kwargs)
+        context = context_enrich_related_activities(self, context, self.object) 
+        return context
 
 
 class ActionAddView(PermissionRequiredMixin, CreateView):
@@ -261,3 +257,12 @@ class IndividualDetailView(DetailView):
     model = Individual
     template_name = 'crm/individuals/individual_detail.html'
 
+
+def context_enrich_related_activities(view, context, activity):
+    queryset = activity.activity_rel.all()
+    paginator = Paginator(queryset,5)
+    page = view.request.GET.get('page')
+    activities = paginator.get_page(page)
+    context['related_activities'] = activities
+    context['page_obj'] = activities 
+    return context 

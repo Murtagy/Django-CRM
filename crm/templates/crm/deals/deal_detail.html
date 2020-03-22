@@ -26,46 +26,9 @@
 </div>
 </div>
 <hr>
-<div class="w3-bar">
-    <div class="w3-tag w3-light-green">Related actions:</div>
-    <div class="w3-right">
-    <a href="{% url 'add_action' %}?related_activity={{ object.id }}">
-        <i class="w3-xxlarge fa fa-bullseye add_plus_show" style="display: none"></i>
-    </a>
-    <a href="{% url 'add_deal' %}?related_activity={{ object.id }}">
-        <i class="w3-xxlarge fa fa-handshake add_plus_show" style="display: none"></i>
-    </a>
-    <a href="{% url 'add_order' %}?related_activity={{ object.id }}">
-        <i class="w3-xxlarge fas fa-file-invoice-dollar add_plus_show" style="display: none"></i>
-    </a>
-    <i id="add_plus" class="w3-xxlarge fas fa-plus" onclick='$(".add_plus_show").show(); $("#add_plus").hide()'></i>
-    </div>
-</div>
-<table class="w3-table">
-    <tr>
-        <th>Type</th>
-        <th>Description</th>
-        <th>Owned by </th>
-        <th>Planned date</th>
-        <th>Fact date</th>
-        <th>Result </th>
-        <th>Assigned by</th>
-    </tr>
-    {% for activity in related_activities %} 
-    <tr>
-        <td>
-            <a href="{% url 'activity_detail' activity.id %}">{{activity.get_type}}</a></td>
-        <td>{{activity.des}}</td>
-        <td>{{activity.owned_by}}</td>
-        <td>{{activity.planned_date}}</td>
-        <td>{{activity.fact_fate}}</td>
-        <td>{{activity.result}}</td>
-        <td>{{activity.assigned_by}}</td>
-    </tr>
-    {% empty %}
-    None
-    {% endfor %}
-</table>
+
+
+{% include 'crm/activities/related_activities_table.html' %}
 
 {% include 'crm/pagination.html' %}
 {% endblock %}
