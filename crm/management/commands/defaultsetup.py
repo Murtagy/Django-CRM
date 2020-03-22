@@ -5,15 +5,17 @@ from django.utils import timezone as tz
 
 def create_admin():
     try: 
-        User.objects.get(username='admin')
+        user = User.objects.get(username='admin')
         print('admin already exists')
+        return user
     except User.DoesNotExist:
         user = User.objects.create_user('admin','','admin')
         user.is_staff = True
         user.is_superuser = True
         user.save()
         print('Created: ', user)
-    print('WARNING! Please change admin password')
+        print('WARNING! Please change admin password')
+        return user
 
 def create_groups():
     try:
@@ -34,10 +36,20 @@ def create_groups():
 def add_permissions(group, p_list):
     p_object_list = []
     for p_name in p_list:
+        print(f'Adding {p_name} to {group}')
         p_obj = Permission.objects.get(name=p_name) 
         p_object_list.append(p_obj)
-        print(f'Adding {p_obj} for {group}')
+        print(f'Added {p_obj} to {group}')
     group.permissions.set(p_object_list)
+
+
+def set_admin_group(admin):
+    group = Group.objects.get(name='Manager')
+    if group in admin.groups.all():
+        print('Admin already in ', group)
+    admin.groups.add(group)
+    print('Gave admin group ', group)
+    
 
 def create_org():
     if Organisation.objects.filter(name='Test organisation'):
@@ -57,10 +69,16 @@ class Command(BaseCommand):
     help = "Creates basic roles and admin superuser"
 
     def handle(self, *args, **options):
-        create_admin()
+        admin = create_admin()
         create_groups()
-        add_permissions(Group.objects.get(name='Manager'),['Can view organisation', 'Can change organisation'])
-        add_permissions(Group.objects.get(name='Sales'),['Can view organisation', 'Can change organisation', 'Can assign organisation'])
+        set_admin_group(admin)
+        
+        org_perms = ['Can view organisation', 'Can change organisation']
+        action_perms = ['Can view action', 'Can change action']
+        order_perms = ['Can view order', 'Can change order']
+        deal_perms = ['Can view deal', 'Can change deal']
+        add_permissions(Group.objects.get(name='Manager'), org_perms+action_perms+order_perms+deal_perms)
+        add_permissions(Group.objects.get(name='Sales'), org_perms+action_perms+order_perms+deal_perms + ['Can assign organisation'])
         create_org()
         print('All good')
 
