@@ -185,6 +185,7 @@ class ActionAddView(PermissionRequiredMixin, CreateView):
 
             self.object.client_fk  = ra_obj.client_fk 
             self.object.activity_rel.add(ra_obj)
+        self.object.save()
         return None
 
     def form_valid(self, form):
