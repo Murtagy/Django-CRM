@@ -5,6 +5,39 @@
     <a href="{% url 'order_edit' object.id %}">
         <i class="fas fa-edit w3-xxlarge"></i></a>
 </div>
-<p>{{  object.des }}</p>
-<p>{{  object.get_status_display }}</p>
+<div class="w3-cell-row">
+<div class="w3-container w3-cell" style="width: 70%">
+    Order info    
+<p><b>Description: </b>{{  object.des }}</p>
+<p><b>Status: </b>{{  object.get_status_display }}</p>
+<p><b>Planned date: </b>{{  object.planned_date}}</p>
+<p><b>Fact date: </b>{{  object.fact_date}}</p>
+</div>
+<div class="w3-container w3-cell" style="width: 30%">
+    <p> <b>Client: </b>
+        {% if object.client_fk.id %}
+          <a href="{% url 'client_detail' object.client_fk.id  %}">
+        {{object.client_fk.name}}</a>
+        {% else %}
+        -
+        {% endif %}
+    </p>
+
+
+    <p><b>ID: </b>{{ object.id  }}</p>
+    <p><b>Name: </b>{{  object.name }}</p>
+
+    <p><b>Created: </b>{{  object.created}}</p>
+    <p><b>Created by: </b>{{  object.created_by}}</p>
+    <p><b>Owned: </b>{{  object.owned}}</p>
+    <p><b>Owned by: </b>{{  object.owned_by}}</p>
+    <p><b>Assigned: </b>{{  object.assigned}}</p>
+    <p><b>Assigned by: </b>{{  object.assigned_by}}</p>
+    <p><b>Modified: </b>{{  object.modified}}</p>
+    <p><b>Modified by: </b>{{  object.modified_by }}</p>
+</div>
+</div>
+<hr>
+
+>
 {% endblock %}

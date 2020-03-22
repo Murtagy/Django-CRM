@@ -180,7 +180,7 @@ class Order(Activity):
         ('P', 'In progress'),
         ('F', 'Finished')
     ]
-    status = models.CharField(choices=STATUS_TYPES, max_length=6)
+    status = models.CharField(choices=STATUS_TYPES, max_length=6, default='N')
 
     def get_absolute_url(self):
         return reverse('order_detail', args=[str(self.id)])
